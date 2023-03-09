@@ -1,0 +1,107 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+}
+
+nav{
+    background: rgb(158, 154, 154);
+    width: 100%;
+    padding: 10px 0 0 0;
+    position: fixed;
+    z-index: 3;
+    opacity: 0.9;
+}
+
+.Title{
+    display: inline;
+    padding: 10px 30px 20px 30px;
+    font-size: 25px;
+    font-style: italic;
+    color: rgb(255, 255, 255);
+    float: left;
+}
+
+.navItem{
+    display: inline;
+    padding: 15px 30px 15px 30px;
+    float: right;
+    color: black;
+}
+
+.navItem:hover{
+    background-color: rgba(103, 98, 98, 0.615);
+    border-radius: 2px;
+    color: white;
+}
+
+#logo{
+    height: 50px;
+    width: 60px;
+    display: inline;
+    float: left;
+    margin-left: 15px;
+
+}
+
+.Fondo{
+    height: 200px;
+    background-image: url('./Img/persona1.jpg');
+    opacity: 0.5;
+}
+
+.Contenido{
+    padding: 20px;
+}
+
+table{
+    border-color: black;
+}
+
+td{
+    width: 22%;
+    background-color: rgba(222, 207, 207, 0.523);
+}
+
+tr, td{
+    border: 10px solid white;
+    
+}
+
+.titulo_curso{
+    background-color: rgba(133, 129, 129, 0.615);
+    text-align: center;
+    height: 40px;
+    padding-top: 15px;
+    margin: 0;
+}
+.imagen_curso{
+    width: 100%;
+    height: 190px;
+}
+
+.informacion{
+    padding: 0 15px 25px 15px;
+    text-align: center;
+}
+
+.informacion p{
+    margin-bottom: 40px;
+}
+
+.boton_ver{
+    margin: 35px;
+    padding: 10px 20px 10px 20px;
+    background-color: rgba(133, 129, 129, 0.615);
+    border-radius: 7px;
+    color: black;
+}
+
+
+.boton_ver:hover{
+    background-color: rgb(95, 87, 87);
+    color: white;
+}
