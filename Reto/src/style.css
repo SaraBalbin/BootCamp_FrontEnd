@@ -1,0 +1,311 @@
+body{
+    margin: 0;
+}
+
+/* LOGIN */
+
+#contenedor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.622);
+    height: 100vh;
+}
+
+#contenedorImg{
+    display: inline-block;
+    height: 100vh;
+    width: 50%;
+    overflow: hidden;
+    box-shadow: 0px 0px 40px 2px #7caed7;
+}
+
+#contenedorImg img{
+    opacity: 0.7;
+    height: 100%;
+    
+}
+
+#contenedorLogin{
+    display: flex;
+    height: 100vh;
+    width: 50%;
+}
+
+#contenedorLogin .ant-card {
+    margin: auto auto;
+    width: 400px;
+    border: #fff;
+}
+
+.ant-card h3{
+    font-size: 18px;
+    font-weight: 2px;
+    color:#68a3d4;
+    text-align: center;
+    margin-bottom: 10px;
+    margin: 0 0 20px 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+
+.grid-row:nth-child(1){
+    margin-bottom: 20px;
+
+}
+#contenedorLogin hr {
+    border-top: 1px solid #bed6ea;
+    margin-bottom: 30px;
+}
+
+#contenedorLogin label{
+    margin-bottom: 10px;
+    display: block;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+
+#contenedorLogin .input{
+    width: 100%;
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid #bed6ea ;
+    display: block;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#botonLogin{
+    padding: 15px;
+    width: 150px;
+    border-radius: 5px;
+    margin: 0 10px;
+    background-color: #68a3d4;
+    color: white;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+
+
+#botonLogin:hover{
+    background-color: #5595c9;
+    color: #fff;
+}
+
+/* HOME ADMIN */
+
+#navHome ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 15%;
+    background-color: #6b99bee9;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+
+  }
+  
+#navHome li a {
+    display: block;
+    color: #0c0c0c;
+    padding: 12px 16px;
+    text-decoration: none;
+  }
+  
+#navHome li a:hover{
+    background-color: #bed6ea;
+}
+
+.activo{
+    background-color: #bed6eabb;
+}
+
+
+#navHome div{
+    height: 150px;
+    /* background-color: #5595c9; */
+    text-align: center;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#navHome div img{
+    width: 80%;
+    margin: auto auto;
+}
+
+#navHome hr{
+    border-top: 1px solid #bed6eabb;
+    border-bottom: 0px;
+    margin: 0;
+}
+
+#menuAdmin {
+    margin-left:15%;
+    height:100%;
+    overflow: hidden;
+}
+
+#barraSuperior{
+    width: 100%;
+    height: 55px;
+    padding: 0px 20px;
+    background-color: #bed6ea;
+    box-shadow: 2px 2px 4px 1px #a6c7e2d3;
+}
+
+#perfil{
+    display: inline-block;
+    height: 40px;
+    float: right;
+    padding: 10px 0px;
+}
+
+#barraSuperior p{
+    padding-top: 20px;
+    display: inline-block;
+    margin: 0;
+    font-size: 16px;
+}
+#barraSuperior p:nth-child(2){
+    height: 40px;
+    font-size: 15px;
+    float: right;
+    padding: 20px 40px 20px 5px;
+    margin: 0 auto;
+
+}
+
+#contenidoHome{
+    display: flex;
+    align-items: center;
+}
+
+#contenidoHome div{
+    margin: auto auto;
+}
+
+#contenidoHome .ant-card {
+    display: inline-block;
+    width: 300px;
+    margin: 30px;
+    box-shadow: 2px 2px 4px 1px #bbcfdfd3;
+
+}
+
+/* LISTAR */
+#contenidoAdmin{
+    margin: 25px;
+}
+.contenidoSuperior{
+    margin: 20px 0;
+}
+
+.contenidoSuperior h3 {
+    display: inline-block;
+    padding-right: 30px;
+    font-size: 20px;
+    font-weight: 400px;
+
+}
+
+.contenidoSuperior button, .botonEditarCrear{
+    background-color: #7caed7;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    margin-right: 30px;
+}
+
+.contenidoSuperior button:hover, .botonEditarCrear:hover {
+    background-color: #5595c9;
+}
+
+
+.verInformacion td{
+    padding-right: 20px;
+}
+
+.verInformacion td:nth-child(1){
+    font-weight: bold;
+}
+
+.botonListar{
+    margin-right: 5px;
+    padding: 5px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.ant-table-row{
+    height: 40px;
+}
+
+.ant-table-cell:nth-last-child(1){
+   width: 230px;
+}
+
+.ant-table-cell{
+    padding: 10px !important;
+}
+
+
+.ver, .editar{
+    width: 60px;
+    background-color: #7caed7;
+    color: white;
+}
+
+.ver:hover, .editar:hover{
+    background-color: #5595c9;
+    
+}
+
+.borrar{
+    background-color: #e75f5f;
+    width: 40px;
+    color: white;
+}
+
+.borrar:hover{
+    background-color: #e83c3c;
+    
+}
+
+/* EDITAR */
+
+.contenedorEdit table{
+    width: 100%;
+}
+
+.contenedorEdit td{
+    width: 20%;
+}
+
+.contenedorEdit td:nth-child(1), .contenedorEdit td:nth-child(2){
+    padding-right: 20px;
+}
+
+.contenedorEdit .ant-card-body{
+    padding: 0px 24px 20px 24px;
+}
+
+.contenedorEdit .input{
+    width: 100%;
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid #417ba9 ;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    
+}
+
+.contenedorEdit label{
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
