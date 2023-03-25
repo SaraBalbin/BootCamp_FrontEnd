@@ -15,7 +15,7 @@ const ListUsers = () => {
 
     const showUser = (id) => {
         setShow(true)
-        for (let elemento of users){
+        for (let elemento of users.users){
             if (elemento.id === id){
                 setUser(elemento)
             }
@@ -66,14 +66,13 @@ const ListUsers = () => {
             render:(id)=>{
                 return (
                     <div>
-                        <button className = 'botonListar ver' onClick={() => {showUser(id)}}>Ver</button>
-                        <button className = 'botonListar editar' button onClick={() => navigate(`/editUser/${id}`, {state:{id:id}})}>Editar</button>
+                        <button className = 'botonListar editarVer' onClick={() => {showUser(id)}}>Ver</button>
+                        <button className = 'botonListar editarVer' onClick={() => navigate(`/editUser/${id}`, {state:{id:id}})}>Editar</button>
                         <button className = 'botonListar borrar' onClick={() => {deleteUser(id)}}> X </button>
                     </div>
                 )
             }
         },
-
     ]
 
     return (
@@ -83,6 +82,7 @@ const ListUsers = () => {
                     <div>
                         <img alt = 'escudoUnal' src='https://cdiac.manizales.unal.edu.co/imagenes/LogosMini/un.png'></img>
                     </div>
+                    <hr/>
                     <li><a href="/adminHome">Principal</a></li>
                     <hr/>
                     <li><a className='activo' href="/listUsers">Usuarios</a></li>
@@ -105,8 +105,8 @@ const ListUsers = () => {
                         <button onClick={() => navigate('/createUser')} >Crear Usuario</button>
                     </div>
                     <div>
-                        <Card>
-                            <Table dataSource={users} columns = {columns} />
+                        <Card id = 'tablaUsers'>
+                            <Table rowKey="id" dataSource={users.users} columns = {columns} />
                         </Card>
                     </div>
         
@@ -128,30 +128,32 @@ const ListUsers = () => {
                 title = 'Información del usuario'
             >
                 <table className='verInformacion'>
-                    <tr>
-                        <td>ID</td>
-                        <td>{user.id}</td>
-                    </tr>
-                    <tr>
-                        <td>Nombres</td>
-                        <td>{user.firstName} {user.secondName}</td>
-                    </tr>
-                    <tr>
-                        <td>Apellidos</td>
-                        <td>{user.surname} {user.secondSurName}</td>
-                    </tr>
-                    <tr>
-                        <td>Identificación</td>
-                        <td>{user.documentNumber}</td>
-                    </tr>
-                    <tr>
-                        <td>Correo</td>
-                        <td>{user.email}</td>
-                    </tr>
-                    <tr>
-                        <td>Celular</td>
-                        <td>{user.phone}</td>
-                    </tr>                 
+                    <tbody>
+                        <tr>
+                            <td>ID</td>
+                            <td>{user.id}</td>
+                        </tr>
+                        <tr>
+                            <td>Nombres</td>
+                            <td>{user.firstName} {user.secondName}</td>
+                        </tr>
+                        <tr>
+                            <td>Apellidos</td>
+                            <td>{user.surname} {user.secondSurName}</td>
+                        </tr>
+                        <tr>
+                            <td>Identificación</td>
+                            <td>{user.documentNumber}</td>
+                        </tr>
+                        <tr>
+                            <td>Correo</td>
+                            <td>{user.email}</td>
+                        </tr>
+                        <tr>
+                            <td>Celular</td>
+                            <td>{user.phone}</td>
+                        </tr>                 
+                    </tbody>
                 </table>             
             </Modal>
         </div>

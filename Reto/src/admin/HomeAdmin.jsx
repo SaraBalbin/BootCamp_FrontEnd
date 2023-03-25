@@ -34,16 +34,12 @@ const HomeAdmin = () => {
                             <li><a href="/listUsers">Ver lista de Usuarios</a></li>
                             <li><a href="/createUser">Crear Usuario</a></li>
                         </ul>
-            
-
                     </Card>
                     <Card title = 'Preguntas' headStyle={{textAlign: 'center'}}>
                          <ul>
                          <li><a href="/listQuestions">Ver lista de Preguntas</a></li>
-                            <li><a href="/Login">Crear Pregunta</a></li>
+                            <li><a href="/createQuestion">Crear Pregunta</a></li>
                         </ul>
-            
-
                     </Card>
                 </div>
 
