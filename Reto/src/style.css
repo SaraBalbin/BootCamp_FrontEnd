@@ -196,7 +196,7 @@ body{
 }
 
 /* LISTAR */
-#contenidoAdmin{
+#contenidoAdmin, #contenidoStudent{
     margin: 25px;
 }
 .contenidoSuperior{
@@ -206,8 +206,10 @@ body{
 .contenidoSuperior h3 {
     display: inline-block;
     padding-right: 30px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    /* font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ; */
 
 }
 
@@ -236,7 +238,7 @@ body{
 
 .botonListar{
     margin-right: 5px;
-    padding: 5px 0;
+    padding: 5px 10px;
     border: none;
     cursor: pointer;
     border-radius: 3px;
@@ -245,22 +247,28 @@ body{
     height: 40px;
 }
 
-.ant-table-cell:nth-last-child(1){
+#tablaUsers .ant-table-cell:nth-last-child(1){
    width: 230px;
+}
+
+.tablaQuestions .ant-table-cell:nth-last-child(1){
+   width: 300px;
+}
+.tablaQuestions{
+    width: 90%;
 }
 
 .ant-table-cell{
     padding: 10px !important;
 }
 
-
-.ver, .editar{
-    width: 60px;
+.editarVer{
+    min-width: 65px;
     background-color: #7caed7;
     color: white;
 }
 
-.ver:hover, .editar:hover{
+.editarVer:hover{
     background-color: #5595c9;
     
 }
@@ -294,7 +302,7 @@ body{
     padding: 0px 24px 20px 24px;
 }
 
-.contenedorEdit .input{
+.contenedorEdit .input, .opciones{
     width: 100%;
     height: 30px;
     border-radius: 3px;
@@ -307,5 +315,51 @@ body{
     display: block;
     margin-top: 20px;
     margin-bottom: 5px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.editarPregOpc label {
+    margin-top: 10px;
+
+}
+.inputEditar, .idRead{
+    border-radius: 3px;
+    border: 1px solid #417ba9 ;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.inputEditar{
+    height: 100px;
+}
+
+
+/* LISTAR OPCIONES */
+.ant-modal-content{
+    width: 600px;
+}
+
+.ant-modal-content .ant-table-cell:nth-last-child(1) {
+    width: 100px;
+}
+
+/* CREAR PREGUNTA */
+
+.textarea{
+    height: 55px !important;
+}
+
+#options {
+    background-color: rgba(193, 215, 228, 0.297);
+}
+
+/* FORMULARIO */
+.botonForm {
+    margin-top: 20px;
+}
+
+.pregunta{
+    font-size: 15px;
+    font-weight: 100;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
