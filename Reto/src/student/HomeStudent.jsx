@@ -13,7 +13,7 @@ const HomeStudent = () => {
                 <hr/>
                 <li><a href="/solveForm">Formulario</a></li>
                 <hr/>
-                <li><a href="#news">Información</a></li>
+                <li><a  onClick={() => {localStorage.removeItem('actualUser')}} href = '/'>Salir</a></li>
                 <hr/>
             </ul>
         </nav>

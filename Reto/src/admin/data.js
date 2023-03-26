@@ -8,20 +8,22 @@ export const users =
             "secondName": "jose",
             "surname": "cruz",
             "secondSurName": "casallas",
-            "typeDocument": 1, //  2 , 3,
+            "typeDocument": 1,
             "documentNumber": "123456789",
             "email": "danielc88@gmail.co",
-            "phone": "32123122314"
+            "phone": "32123122314",
+            'password': '1234'
         }, {
             'id': 2,
             "firstName": "sara",
             "secondName": "catalina",
             "surname": "balbin",
             "secondSurName": "ramirez",
-            "typeDocument": 1, //  2 , 3,
+            "typeDocument": 1, 
             "documentNumber": "1000415580",
             "email": "sbalbin@gmail.co",
-            "phone": "32123122314"
+            "phone": "32123122314",
+            'password': '1234'
         }, ]
     }
 
