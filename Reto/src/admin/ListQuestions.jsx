@@ -1,31 +1,81 @@
 import { Card, Modal, Table } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { questions } from './data'
 import { useNavigate } from 'react-router-dom';
 
 const ListQuestions = () => {
-  const navigate = useNavigate();
 
-  // Delete
+  let actualUser = JSON.parse(localStorage.getItem('actualUser'));
+  const navigate = useNavigate();
+  let questions = ''
+
+  const getQuestions = () => {
+    if (localStorage.getItem('questions') === null){
+        localStorage.setItem('questions', JSON.stringify([{
+          "question": "¿Los números son estudiados por?",
+          "id": 1,
+          "options": [{
+              "id": 1,
+              "option": "La biología",
+          }, {
+              "id": 2,
+              "option": "Las Matemáticas",
+          }, {
+              "id": 3,
+              "option": "La sociología",
+          }, {
+              "id": 4,
+              "option": "La medicina",
+          }]
+      }, {
+          "question": "¿Qué ciencia o disciplina estudia la estructura y funcionamiento del cuerpo humano?",
+          "id": 2,
+          "options": [{
+              "id": 5,
+              "option": "Cardiología",
+          }, {
+              "id": 6,
+              "option": "Zoología",
+          }, {
+              "id": 7,
+              "option": "Anatomía",
+          }, {
+              "id": 8,
+              "option": "Fisiología humana",
+          }]
+      }]))
+    }
+    questions = JSON.parse(localStorage.getItem('questions'))
+  }
+
+  useEffect(() => {
+    if (actualUser === null) {
+        navigate('/')
+    } else if (actualUser.role === 'estudiante'){
+        navigate('/studentHome')
+    }
+    getQuestions()
+})
+
+
+  // Eliminar Preguntas
   const [deleted, setDeleted] = useState(false)
-  const [closeDelete, setCloseDelete] = useState(false)
 
   const closeModalDelete = () =>{
-    setCloseDelete(true)
     setDeleted(false)
   }
 
   const deleteQuestion = (id) =>{
-      console.log(id)
-      setDeleted(true)
+    const result = questions.filter(question => question.id !== id);
+    localStorage.setItem('questions', JSON.stringify(result))
+    setDeleted(true)
+
   }
 
-    // Edit
+    // Editar Pregunta
     const [edit, setEdit] = useState(false)
-    const [closeEdit, setCloseEdit] = useState(false)
 
     const closeModalEdit = () =>{
-      setCloseEdit(true)
       setEdit(false)
     }
     const [currentQuestion, setCurrentQuestion] = useState('')
@@ -110,7 +160,8 @@ const ListQuestions = () => {
               </div>
               <div>
                   <Card className='tablaQuestions'>
-                      <Table rowKey="id" dataSource={questions.questions} columns = {columns} />
+                      <Table rowKey="id" dataSource={JSON.parse(localStorage.getItem('questions'))} columns = {columns} 
+                      pagination={{ pageSize: 5, showSizeChanger: true }} />
                   </Card>
               </div>
 
@@ -122,7 +173,7 @@ const ListQuestions = () => {
                 okButtonProps={{ style: { backgroundColor: '#5595c9' } }}
                 title = 'Borrado de pregunta'
                     >
-                La pregunta seleccionada ha sido eliminada
+                La pregunta seleccionada ha sido eliminada exitosamente
         </Modal>
 
         <Modal open ={edit}

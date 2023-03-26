@@ -26,7 +26,7 @@ const SolveForm = () => {
           <hr/>
           <li><a className = 'activo' href="/solveForm">Formulario</a></li>
           <hr/>
-          <li><a href="#news">Información</a></li>
+          <li><a  onClick={() => {localStorage.removeItem('actualUser')}} href = '/'>Salir</a></li>
           <hr/>
         </ul>
       </nav>

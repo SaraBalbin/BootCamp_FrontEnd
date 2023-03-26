@@ -1,7 +1,22 @@
-import { Card } from 'antd'
-import React from 'react'
+import { Card } from 'antd';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router';
+
 
 const HomeAdmin = () => {
+    let actualUser = JSON.parse(localStorage.getItem('actualUser'));
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (actualUser === null) {
+            navigate('/')
+        } else{
+            if (actualUser.role === 'estudiante'){
+                navigate('/studentHome')
+            }
+        }
+    })
+
   return (
     <div>
         <nav id = 'navHome'>
@@ -15,7 +30,7 @@ const HomeAdmin = () => {
                 <hr/>
                 <li><a href="/listQuestions">Preguntas</a></li>
                 <hr/>
-                <li><a href="#news">Información</a></li>
+                <li><a  onClick={() => {localStorage.removeItem('actualUser')}} href = '/'>Salir</a></li>
                 <hr/>
             </ul>
         </nav>

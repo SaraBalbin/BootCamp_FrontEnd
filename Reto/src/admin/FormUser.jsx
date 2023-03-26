@@ -1,13 +1,13 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { object, string } from 'yup';
-import { Card } from 'antd';
+import { Card, Modal } from 'antd';
 import { Field, Form, Formik } from 'formik';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { users } from './data'
 
 
 const FormUser = ({type}) => {
   const navigate = useNavigate();
+  let students = JSON.parse(localStorage.getItem('students'));
     
   let userSchema = object({
       firstName: string().required(),
@@ -18,6 +18,7 @@ const FormUser = ({type}) => {
       documentNumber: string().required(),
       email: string().email().required(),
       phone: string().required(),
+      password: string().required(),
   });
 
   let user = ''
@@ -25,7 +26,7 @@ const FormUser = ({type}) => {
 
   if (type === 'editar'){
     const idUser = location.state.id;
-    for (let elemento of users.users){
+    for (let elemento of students){
         if (elemento.id === idUser){
             user = elemento
             break
@@ -34,6 +35,7 @@ const FormUser = ({type}) => {
   }
 
   let valuesInitial = {
+    'id': user !== '' ? user.id: 'ID generado automaticamente',
     'firstName': user !== '' ? user.firstName : '',
     'secondName':  user !== '' ? user.secondName : '',
     'surname':  user !== '' ? user.surname : '',
@@ -42,15 +44,52 @@ const FormUser = ({type}) => {
     'documentNumber':  user !== '' ? user.documentNumber : '',
     'email':  user !== '' ? user.email : '',
     'phone':  user !== '' ? user.phone : '',
+    'password':  user !== '' ? user.password : '',
 
   }
   const form = useRef()
 
+  // Crear usuario
+  const [msgCreate, setMsgCreate] = useState(false)
+
   const createUser = (values) =>{
-    console.log(values)
+
+    let listUsers = JSON.parse(localStorage.getItem('students'))
+    if (listUsers.length === 0){
+        values.id = 0
+    } else{
+        let newID = listUsers[listUsers.length - 1].id + 1
+        values.id = newID
+
+    }
+    listUsers.push(values)
+    localStorage.setItem('students', JSON.stringify(listUsers))
+    setMsgCreate(true)
   }
+
+  const closeModalCreate = () => {
+    navigate('/listUsers')
+  }
+
+  // Editar Usuario
+  const [msgEdit, setMsgEdit] = useState(false)
+
+  const closeModalEdit = () => {
+    navigate('/listUsers')
+  }
+
   const editUser = (values) =>{
-    console.log(values)
+    let listUsers = JSON.parse(localStorage.getItem('students'))
+    const idEdit = values.id
+
+    for (let index = 0; index < listUsers.length; index++) {
+        const student = listUsers[index];
+        if (student.id === idEdit){
+            listUsers[index] = values
+        }
+    }
+    localStorage.setItem('students', JSON.stringify(listUsers))
+    setMsgEdit(true)
   }
 
   return (
@@ -64,7 +103,7 @@ const FormUser = ({type}) => {
                 <li><a href="/adminHome">Principal</a></li><hr/>
                 <li><a className='activo' href="/listUsers">Usuarios</a></li><hr/>
                 <li><a href="/listQuestions">Preguntas</a></li><hr/>
-                <li><a href="#news">Información</a></li><hr/>
+                <li><a  onClick={() => {localStorage.removeItem('actualUser')}} href = '/'>Salir</a></li>
             </ul>
         </nav>
         <div id ='menuAdmin'>
@@ -92,22 +131,24 @@ const FormUser = ({type}) => {
                                   <tr>
                                     <td>
                                         <label>ID </label>
-                                        <Field className = 'input' type = 'number' disabled = {true} name = "id"/>                 
+                                        <Field className = 'input'  disabled = {true} name = "id"/>                 
                                     </td>
                                     <td>
                                         <label>Primer nombre </label>
                                         <Field className = 'input' name = "firstName"/>
                                     </td>
+                                  </tr>
+                                  <tr>
                                     <td>
                                         <label>Segundo nombre </label>
                                         <Field className = 'input' name = "secondName"/>               
                                     </td>
-                                  </tr>
-                                  <tr>
                                     <td>
-                                        <label>Priner apellido </label>
+                                        <label>Primer apellido </label>
                                         <Field className = 'input' name = "surname"/>
                                     </td>
+                                  </tr>
+                                  <tr>
                                     <td>
                                         <label>Segundo apellido</label>
                                         <Field className = 'input' name = "secondSurName"/>           
@@ -124,15 +165,21 @@ const FormUser = ({type}) => {
                                   <tr>
                                     <td>
                                         <label>Numero de documento </label>
-                                        <Field className = 'input' type = 'number' name = "documentNumber"/>                                             
+                                        <Field className = 'input' name = "documentNumber"/>                                             
                                     </td>
                                     <td>
                                         <label> Correo electrónico </label>
                                         <Field className = 'input' type = 'email' name = "email"/>
                                     </td>
+                                  </tr>
+                                  <tr>
                                     <td>
                                         <label> Número de teléfono </label>
-                                        <Field className = 'input' type = 'number' name = "phone"/>
+                                        <Field className = 'input' name = "phone"/>
+                                    </td>
+                                    <td>
+                                        <label>Contraseña asignada</label>
+                                        <Field className = 'input' name = "password"/>                                             
                                     </td>
                                   </tr>
                                 </tbody>
@@ -143,6 +190,22 @@ const FormUser = ({type}) => {
                 </div>
             </div>
         </div>
+        <Modal open ={msgCreate}
+            onOk= {closeModalCreate}
+            cancelButtonProps={{ style: { display: 'none' } }}
+            okButtonProps={{ style: { backgroundColor: '#5595c9' } }}
+            title = 'Creacion exitosa'
+            >
+            Estudiante creado correctamente
+        </Modal>
+        <Modal open ={msgEdit}
+            onOk= {closeModalEdit}
+            cancelButtonProps={{ style: { display: 'none' } }}
+            okButtonProps={{ style: { backgroundColor: '#5595c9' } }}
+            title = 'Edición exitosa'
+            >
+            Estudiante actualizado correctamente
+        </Modal>
     </div>
   )
 }

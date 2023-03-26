@@ -1,39 +1,77 @@
 import { Card, Modal, Table } from 'antd'
-import React, { useState } from 'react'
-import { users } from './data'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 const ListUsers = () => {
-    const [deleted, setDeleted] = useState(false)
-    const [closeDelete, setCloseDelete] = useState(false)
 
-    const [show, setShow] = useState(false)
-    const [closeShow, setCloseShow] = useState(false)
-
+    let actualUser = JSON.parse(localStorage.getItem('actualUser'));
     const navigate = useNavigate();
+    let students = ''
+
+    const getStudents = () => {
+        if (localStorage.getItem('students') === null){
+            localStorage.setItem('students', JSON.stringify([{
+                'id': 1,
+                "firstName": "daniel",
+                "secondName": "jose",
+                "surname": "cruz",
+                "secondSurName": "casallas",
+                "typeDocument": 1,
+                "documentNumber": "123456789",
+                "email": "danielc88@gmail.co",
+                "phone": "32123122314",
+                'password': '1234'
+            }, {
+                'id': 2,
+                "firstName": "sara",
+                "secondName": "catalina",
+                "surname": "balbin",
+                "secondSurName": "ramirez",
+                "typeDocument": 1, 
+                "documentNumber": "1000415580",
+                "email": "sbalbin@gmail.co",
+                "phone": "32123122314",
+                'password': '1234'
+            }, ]))
+        }
+        students = JSON.parse(localStorage.getItem('students'))
+    }
+
+    useEffect(() => {
+        if (actualUser === null) {
+            navigate('/')
+        } else if (actualUser.role === 'estudiante'){
+            navigate('/studentHome')
+        }
+        getStudents()
+    })
+
+    // Mostrar Usuario
+    const [show, setShow] = useState(false)
     const [user, setUser] = useState('')
 
     const showUser = (id) => {
         setShow(true)
-        for (let elemento of users.users){
+        for (let elemento of students){
             if (elemento.id === id){
                 setUser(elemento)
             }
         }
-
     }
     const closeModalShow = () => {
         setShow(false)
-        setCloseShow(true)
     }
     
+    // Eliminar Usuario
+    const [deleted, setDeleted] = useState(false)
+
     const deleteUser = (id) =>{
-        console.log(id)
+        const result = students.filter(student => student.id !== id);
+        localStorage.setItem('students', JSON.stringify(result))
         setDeleted(true)
     }
 
     const closeModalDelete = () =>{
-        setCloseDelete(true)
         setDeleted(false)
     }
 
@@ -89,7 +127,7 @@ const ListUsers = () => {
                     <hr/>
                     <li><a href="/listQuestions">Preguntas</a></li>
                     <hr/>
-                    <li><a href="#news">Información</a></li>
+                    <li><a  onClick={() => {localStorage.removeItem('actualUser')}} href = '/'>Salir</a></li>
                     <hr/>
                 </ul>
             </nav>
@@ -106,13 +144,15 @@ const ListUsers = () => {
                     </div>
                     <div>
                         <Card id = 'tablaUsers'>
-                            <Table rowKey="id" dataSource={users.users} columns = {columns} />
+                            <Table rowKey="id" dataSource={JSON.parse(localStorage.getItem('students'))} columns = {columns} 
+                            pagination={{ pageSize: 5, showSizeChanger: true }} />
                         </Card>
                     </div>
         
                 </div>
             </div>
             <Modal open ={deleted}
+                onCancel = {closeModalDelete}
                 onOk= {closeModalDelete}
                 cancelButtonProps={{ style: { display: 'none' } }}
                 okButtonProps={{ style: { backgroundColor: '#5595c9' } }}
