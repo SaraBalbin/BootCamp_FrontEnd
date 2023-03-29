@@ -1,38 +1,77 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from 'antd';
+import { Card, Modal } from 'antd';
 import { Field, Form, Formik } from 'formik';
+import { object, string } from 'yup';
 
 const CreateQuestion = () => {
+  let actualUser = JSON.parse(localStorage.getItem('actualUser'));
+  let questions = JSON.parse(localStorage.getItem('questions'));
   const navigate = useNavigate();
 
-  const createQuestion = (values) =>{
+  useEffect(() => {
+    if (actualUser === null) {
+        navigate('/')
+    } else if (actualUser.role !== 'admin'){
+        navigate('/studentHome')
+    }
+  })
+
+  let questionSchema = object({
+    question: string().required(),
+    option1: string().required(),
+    option2: string().required(),
+    option3: string().required(),
+    option4: string().required(),
+    correct: string().required()
+});
+
+  const [msgCreate, setMsgCreate] = useState(false)
+
+  const createQuestion = (values) => {
+    let idQuestion = 0
+    let idOption = 0
+    if (questions.length !== 0){
+      idQuestion = questions[questions.length - 1].id + 1
+      idOption = questions[questions.length - 1].options[3].id
+    }
+
     let array = [false, false, false, false]
     array[values.correct -1] = true
     
     const result = {
+      'id': idQuestion,
       'question': values.question,
       'options': [
         {
+          'id': idOption + 1,
           'option': values.option1,
           'iscorrect': array[0]
         },
         {
+          'id': idOption + 2,
           'option': values.option2,
           'iscorrect': array[1]
         },
         {
+          'id': idOption + 3,
           'option': values.option3,
           'iscorrect': array[2]
         },
         {
+          'id': idOption + 4,
           'option': values.option4,
           'iscorrect': array[3]
         }
       ]
     }
-    console.log(result)
+    questions.push(result)
+    localStorage.setItem('questions', JSON.stringify(questions))
+    setMsgCreate(true)
   } 
+  const closeModalCreate = () => {
+    navigate('/listQuestions')
+  }
 
   let valuesInitial = {
     'question': '',
@@ -59,7 +98,7 @@ const CreateQuestion = () => {
           <hr/>
           <li><a className='activo' href="/listQuestions">Preguntas</a></li>
           <hr/>
-          <li><a href="#news">Información</a></li>
+          <li><a  onClick={() => {localStorage.removeItem('actualUser')}} href = '/'>Salir</a></li>
           <hr/>
             </ul>
         </nav>
@@ -80,7 +119,7 @@ const CreateQuestion = () => {
                   <button className='botonEditarCrear' onClick = {() => {form.current.submitForm()}} type = "submit">Guardar</button>
               </div>
             ]}>
-              <Formik innerRef = {form} initialValues = {valuesInitial}
+              <Formik innerRef = {form} validationSchema = {questionSchema} initialValues = {valuesInitial}
                   onSubmit = {(values) => createQuestion(values)} title = 'Información actual del usuario'>
                 <Form>
                   <table>
@@ -128,6 +167,14 @@ const CreateQuestion = () => {
           </div>
         </div>
       </div>
+      <Modal open ={msgCreate}
+            onOk= {closeModalCreate}
+            cancelButtonProps={{ style: { display: 'none' } }}
+            okButtonProps={{ style: { backgroundColor: '#5595c9' } }}
+            title = 'Creacion exitosa'
+            >
+            Pregunta creada correctamente
+      </Modal>
     </div>
   )
 }

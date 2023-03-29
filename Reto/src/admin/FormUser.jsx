@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { object, string } from 'yup';
 import { Card, Modal } from 'antd';
 import { Field, Form, Formik } from 'formik';
@@ -6,8 +6,18 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const FormUser = ({type}) => {
+  
+  let actualUser = JSON.parse(localStorage.getItem('actualUser'));
   const navigate = useNavigate();
   let students = JSON.parse(localStorage.getItem('students'));
+
+  useEffect(() => {
+    if (actualUser === null) {
+        navigate('/')
+    } else if (actualUser.role !== 'admin'){
+        navigate('/studentHome')
+    }
+  })
     
   let userSchema = object({
       firstName: string().required(),
@@ -55,15 +65,23 @@ const FormUser = ({type}) => {
   const createUser = (values) =>{
 
     let listUsers = JSON.parse(localStorage.getItem('students'))
-    if (listUsers.length === 0){
-        values.id = 0
-    } else{
-        let newID = listUsers[listUsers.length - 1].id + 1
-        values.id = newID
-
+    let newID = 0
+    if (listUsers.length !== 0){
+      newID = listUsers[listUsers.length - 1].id + 1
     }
+    values.id = newID
     listUsers.push(values)
     localStorage.setItem('students', JSON.stringify(listUsers))
+
+    // Actualizar lista Soluciones
+    let listUsersSolutions = JSON.parse(localStorage.getItem('studentsAnswer'))
+    let newUserSolution = {
+      'id': newID,
+      'answers': [],
+      'formOk': false
+    }
+    listUsersSolutions.push(newUserSolution)
+    localStorage.setItem('studentsAnswer', JSON.stringify(newUserSolution))
     setMsgCreate(true)
   }
 
