@@ -73,9 +73,10 @@ const SolveForm = () => {
             <h3>Resolver Formulario</h3>
           </div>
           <div>
+            {questions === null ? <p>No hay preguntas en el formulario</p> : false}
             <form onSubmit={(e, values) => {submit(e, values)}}>
               {
-              questions.map((question, index) => {
+              questions?.map((question, index) => {
                 return (
                   <div key={question.id}>
                     <h4 className = 'pregunta'><b>Pregunta {index+1}: </b>{question.question}</h4>
@@ -88,7 +89,7 @@ const SolveForm = () => {
                   </div>
                 )
               })}
-              <button className = 'botonEditarCrear botonForm' type='submit'>Enviar</button>
+              <button className = 'botonEditarCrear botonForm' disabled = {questions === null ? true: false} type='submit'>Enviar</button>
             </form>
           </div>
         </div>

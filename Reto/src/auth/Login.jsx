@@ -111,7 +111,9 @@ const Login = () => {
                 </Card>
                 <Modal open = {visible} 
                     cancelButtonProps={{ style: { display: 'none' } }} 
-                    onOk = {onClose}>
+                    onOk = {onClose}
+                    title =  {login === true? 'Inicio exitoso' : 'Fallo en autenticación'}>
+                    
                     {login === true? 'Ingreso exitoso, será redirigido a la página principal' : 'Contraseña o email inválidos'}
                 </Modal>
             </div>

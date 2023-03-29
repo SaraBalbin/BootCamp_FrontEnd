@@ -39,6 +39,7 @@ const ListUsers = () => {
     const deleteUser = (id) =>{
         const result = students.filter(student => student.id !== id);
         localStorage.setItem('students', JSON.stringify(result))
+        
         const result2 = studentsAnswer.filter(student => student.id !== id);
         localStorage.setItem('studentsAnswer', JSON.stringify(result2))
         setDeleted(true)
