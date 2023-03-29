@@ -1,9 +1,28 @@
-import React from 'react'
+import { Modal } from 'antd';
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router';
-import { formStudents } from '../admin/data'
 
 const SolveForm = () => {
+  let actualUser = JSON.parse(localStorage.getItem('actualUser'));
+  let questions = JSON.parse(localStorage.getItem('questions'));
+  let studentsAnswer = JSON.parse(localStorage.getItem('studentsAnswer'))
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (actualUser === null) {
+        navigate('/')
+    } else if (actualUser.role === 'admin'){
+        navigate('/adminHome')
+    }
+  })
+
+  const [msgForm, setMsgForm] = useState(false)
+
+  const closeModalForm = () => {
+    navigate('/studentHome')
+  }
+
 
   const submit = (e) => {
     e.preventDefault()
@@ -12,7 +31,17 @@ const SolveForm = () => {
     for (let i = 0; i < select.length; i++) {
       respuestas.push(parseInt(document.getElementById(select[i].id).value));
     }
-    console.log(respuestas)
+    let actualUserID = actualUser.id
+    for (let index = 0; index < studentsAnswer.length; index++) {
+      const element = studentsAnswer[index];
+      if (element.id === actualUserID){
+        studentsAnswer[index].answers = respuestas
+        studentsAnswer[index].formOk = true
+        break
+      }
+    }
+    localStorage.setItem('studentsAnswer', JSON.stringify(studentsAnswer))
+    setMsgForm(true)
   }
 
   return (
@@ -46,7 +75,7 @@ const SolveForm = () => {
           <div>
             <form onSubmit={(e, values) => {submit(e, values)}}>
               {
-              formStudents.questions.map((question, index) => {
+              questions.map((question, index) => {
                 return (
                   <div key={question.id}>
                     <h4 className = 'pregunta'><b>Pregunta {index+1}: </b>{question.question}</h4>
@@ -64,6 +93,14 @@ const SolveForm = () => {
           </div>
         </div>
       </div>
+      <Modal open ={msgForm}
+            onOk= {closeModalForm}
+            cancelButtonProps={{ style: { display: 'none' } }}
+            okButtonProps={{ style: { backgroundColor: '#5595c9' } }}
+            title = 'Formulario enviado'
+            >
+            Respuestas almacenadas con exito
+        </Modal>
     </div>
   )
 }

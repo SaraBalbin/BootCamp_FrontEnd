@@ -58,7 +58,6 @@ const Login = () => {
 
     
     const signIn = (values) =>{
-        console.log(JSON.stringify(values))
 
         // Busqueda de admin
         const admin = JSON.parse(localStorage.getItem('admin'));

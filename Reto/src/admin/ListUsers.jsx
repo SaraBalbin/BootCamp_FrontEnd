@@ -6,44 +6,15 @@ const ListUsers = () => {
 
     let actualUser = JSON.parse(localStorage.getItem('actualUser'));
     const navigate = useNavigate();
-    let students = ''
-
-    const getStudents = () => {
-        if (localStorage.getItem('students') === null){
-            localStorage.setItem('students', JSON.stringify([{
-                'id': 1,
-                "firstName": "daniel",
-                "secondName": "jose",
-                "surname": "cruz",
-                "secondSurName": "casallas",
-                "typeDocument": 1,
-                "documentNumber": "123456789",
-                "email": "danielc88@gmail.co",
-                "phone": "32123122314",
-                'password': '1234'
-            }, {
-                'id': 2,
-                "firstName": "sara",
-                "secondName": "catalina",
-                "surname": "balbin",
-                "secondSurName": "ramirez",
-                "typeDocument": 1, 
-                "documentNumber": "1000415580",
-                "email": "sbalbin@gmail.co",
-                "phone": "32123122314",
-                'password': '1234'
-            }, ]))
-        }
-        students = JSON.parse(localStorage.getItem('students'))
-    }
+    let students = JSON.parse(localStorage.getItem('students'))
+    let studentsAnswer = JSON.parse(localStorage.getItem('studentsAnswer'))
 
     useEffect(() => {
         if (actualUser === null) {
             navigate('/')
-        } else if (actualUser.role === 'estudiante'){
+        } else if (actualUser.role !== 'admin'){
             navigate('/studentHome')
         }
-        getStudents()
     })
 
     // Mostrar Usuario
@@ -68,6 +39,8 @@ const ListUsers = () => {
     const deleteUser = (id) =>{
         const result = students.filter(student => student.id !== id);
         localStorage.setItem('students', JSON.stringify(result))
+        const result2 = studentsAnswer.filter(student => student.id !== id);
+        localStorage.setItem('studentsAnswer', JSON.stringify(result2))
         setDeleted(true)
     }
 
@@ -152,7 +125,6 @@ const ListUsers = () => {
                 </div>
             </div>
             <Modal open ={deleted}
-                onCancel = {closeModalDelete}
                 onOk= {closeModalDelete}
                 cancelButtonProps={{ style: { display: 'none' } }}
                 okButtonProps={{ style: { backgroundColor: '#5595c9' } }}

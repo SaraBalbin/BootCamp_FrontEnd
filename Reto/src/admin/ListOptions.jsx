@@ -1,50 +1,70 @@
-import { Card, Form, Modal, Table } from 'antd'
-import React, { useRef, useState } from 'react'
-import { questionComplete } from './data'
-import { useNavigate } from 'react-router-dom';
-import { Formik } from 'formik';
+import { Card, Modal, Table } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ListOptions = () => {
   const navigate = useNavigate();
+  let actualUser = JSON.parse(localStorage.getItem('actualUser'));
+  let questions = JSON.parse(localStorage.getItem('questions'));
+  let options = JSON.parse(localStorage.getItem('actualOptions'));
 
-    // Edit
-    const form = useRef()
-    const [edit, setEdit] = useState(false)
-    const [closeEdit, setCloseEdit] = useState(false)
-    
-    const closeModalEdit = () =>{
-      setCloseEdit(true)
-      setEdit(false)
+
+  const location = useLocation();
+  const idActualQuestion = location.state.id;
+
+  useEffect(() => {
+    if (actualUser === null) {
+        navigate('/')
+    } else if (actualUser.role !== 'admin'){
+        navigate('/studentHome')
     }
-    const [currentOption, setCurrentOption] = useState('')
-    const [idQuestion, setIdQuestion] = useState('')
+  })
+
+  // Edit
+  const [edit, setEdit] = useState(false)
   
-    const editOption = (id) =>{
-      setIdQuestion(id)
-      console.log(id)
-      console.log(idQuestion)
-      for (let elemento of questionComplete.options){
-        if (elemento.id === id){
-          setCurrentOption(elemento)
-          break
+  const closeModalEdit = () =>{
+    setEdit(false)
+  }
+  const [currentOption, setCurrentOption] = useState('')
+  const [idOption, setIdOption] = useState('')
+
+  const editOption = (idOpt) =>{
+    setIdOption(idOpt)
+    for (let elemento of options){
+      if (elemento.id === idOpt){
+        setCurrentOption(elemento)
+        break
+      }
+    }
+    setEdit(true)
+  }
+  const submit = (e) => {
+    e.preventDefault()
+    for (let i = 0; i < questions.length; i++) {
+      let quest = questions[i];
+      if (quest.id === idActualQuestion){
+        for (let j = 0; j < quest.options.length; j++) {
+          let option = quest.options[j];
+          if (option.id === idOption){
+            if (currentOption instanceof Object){
+              questions[i].options[j].option = currentOption.option
+            }
+            else {
+              questions[i].options[j].option = currentOption
+            }
+            localStorage.setItem('actualOptions', JSON.stringify(questions[i].options))
+            break
+          }
+          
         }
       }
-      setEdit(true)
     }
-
-    const submit = (e) => {
-      console.log(idQuestion)
-      e.preventDefault()
-      let obj = ''
-      if (currentOption instanceof Object){
-        obj = {"option": currentOption.option}
-      }
-      else {
-        obj = {"option": currentOption}
-      }
-      console.log(obj)
-      closeModalEdit() 
-    }
+    localStorage.setItem('questions', JSON.stringify(questions))
+    console.log(JSON.parse(localStorage.getItem('questions')))
+    console.log(JSON.parse(localStorage.getItem('actualOptions')))
+    closeModalEdit()
+  }
   
   const columnsOptions = [
     {
@@ -99,7 +119,7 @@ const ListOptions = () => {
                 </div>
                 <div>
                     <Card className='tablaQuestions'>
-                        <Table rowKey="id" dataSource={questionComplete.options} columns = {columnsOptions} />
+                        <Table rowKey="id"  dataSource={JSON.parse(localStorage.getItem('actualOptions'))} columns = {columnsOptions} />
                     </Card>
                 </div>
     
@@ -117,7 +137,7 @@ const ListOptions = () => {
                 <form className = 'editarPregOpc' >
                   <div>
                     <label>ID de la opción</label>
-                    <input className = 'idRead' value={idQuestion} readOnly></input>
+                    <input className = 'idRead' value={idOption} readOnly></input>
                   </div>
                   <div>
                     <label>Contenido de la opción</label>

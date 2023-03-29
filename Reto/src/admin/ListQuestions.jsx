@@ -1,60 +1,21 @@
 import { Card, Modal, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { questions } from './data'
 import { useNavigate } from 'react-router-dom';
 
 const ListQuestions = () => {
 
   let actualUser = JSON.parse(localStorage.getItem('actualUser'));
+  let questions = JSON.parse(localStorage.getItem('questions'));
   const navigate = useNavigate();
-  let questions = ''
-
-  const getQuestions = () => {
-    if (localStorage.getItem('questions') === null){
-        localStorage.setItem('questions', JSON.stringify([{
-          "question": "¿Los números son estudiados por?",
-          "id": 1,
-          "options": [{
-              "id": 1,
-              "option": "La biología",
-          }, {
-              "id": 2,
-              "option": "Las Matemáticas",
-          }, {
-              "id": 3,
-              "option": "La sociología",
-          }, {
-              "id": 4,
-              "option": "La medicina",
-          }]
-      }, {
-          "question": "¿Qué ciencia o disciplina estudia la estructura y funcionamiento del cuerpo humano?",
-          "id": 2,
-          "options": [{
-              "id": 5,
-              "option": "Cardiología",
-          }, {
-              "id": 6,
-              "option": "Zoología",
-          }, {
-              "id": 7,
-              "option": "Anatomía",
-          }, {
-              "id": 8,
-              "option": "Fisiología humana",
-          }]
-      }]))
-    }
-    questions = JSON.parse(localStorage.getItem('questions'))
-  }
+  
+  localStorage.setItem('actualOptions', JSON.stringify(''))
 
   useEffect(() => {
     if (actualUser === null) {
         navigate('/')
-    } else if (actualUser.role === 'estudiante'){
+    } else if (actualUser.role !== 'admin'){
         navigate('/studentHome')
     }
-    getQuestions()
 })
 
 
@@ -83,7 +44,7 @@ const ListQuestions = () => {
 
     const editQuestion = (id) =>{
       setIdQuestion(id)
-      for (let elemento of questions.questions){
+      for (let elemento of questions){
         if (elemento.id === id){
           setCurrentQuestion(elemento)
           break
@@ -93,17 +54,32 @@ const ListQuestions = () => {
     }
 
     const submit = (e) => {
-      console.log(idQuestion)
       e.preventDefault()
-      let obj = ''
-      if (currentQuestion instanceof Object){
-        obj = {"question": currentQuestion.question}
+      for (let index = 0; index < questions.length; index++) {
+        const quest = questions[index];
+        if (quest.id === idQuestion){
+          if (currentQuestion instanceof Object){
+            questions[index].question = currentQuestion.question
+          }
+          else {
+            questions[index].question = currentQuestion
+          }
+        }
       }
-      else {
-        obj = {"question": currentQuestion}
-      }
-      console.log(obj)
+      localStorage.setItem('questions', JSON.stringify(questions))
       closeModalEdit()
+    }
+
+    const optionsRedirect = (id) => {
+      let options = ''
+      for (let elemento of questions){
+        if (elemento.id === id){
+          options = elemento.options
+          break
+        }
+      }
+      localStorage.setItem('actualOptions', JSON.stringify(options))
+      navigate(`/listOptions/${id}`, {state:{id:id}})
     }
 
   const columns = [
@@ -122,7 +98,7 @@ const ListQuestions = () => {
           return (
             <div>
               <button className = 'botonListar editarVer' onClick={() => {editQuestion(id)}}>Editar</button>
-              <button className = 'botonListar editarVer' onClick={() => navigate(`/listOptions/${id}`, {state:{id:id}})}>Ver Opciones</button>
+              <button className = 'botonListar editarVer' onClick={() => optionsRedirect(id)}>Ver Opciones</button>
               <button className = 'botonListar borrar' onClick={() => {deleteQuestion(id)}}> X </button>
             </div>
           )
@@ -143,7 +119,7 @@ const ListQuestions = () => {
             <hr/>
             <li><a className='activo' href="/listQuestions">Preguntas</a></li>
             <hr/>
-            <li><a href="#news">Información</a></li>
+            <li><a  onClick={() => {localStorage.removeItem('actualUser')}} href = '/'>Salir</a></li>
             <hr/>
           </ul>
         </nav>
