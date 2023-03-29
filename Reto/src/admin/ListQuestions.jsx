@@ -35,6 +35,11 @@ const ListQuestions = () => {
 
     // Editar Pregunta
     const [edit, setEdit] = useState(false)
+    const [msgEdit, setMsgEdit] = useState(false)
+
+    const closeModalMsgEdit = () => {
+      setMsgEdit(false)
+    }
 
     const closeModalEdit = () =>{
       setEdit(false)
@@ -59,15 +64,19 @@ const ListQuestions = () => {
         const quest = questions[index];
         if (quest.id === idQuestion){
           if (currentQuestion instanceof Object){
+            console.log(currentQuestion.question.trim() === '')
+            if (currentQuestion.question.trim() === '') return false;
             questions[index].question = currentQuestion.question
           }
           else {
+            if (currentQuestion.trim() === '') return false;
             questions[index].question = currentQuestion
           }
         }
       }
       localStorage.setItem('questions', JSON.stringify(questions))
       closeModalEdit()
+      setMsgEdit(true)
     }
 
     const optionsRedirect = (id) => {
@@ -171,6 +180,14 @@ const ListQuestions = () => {
             </div>
           </form>
         </Modal>
+        <Modal open ={msgEdit}
+            onOk= {closeModalMsgEdit}
+            cancelButtonProps={{ style: { display: 'none' } }}
+            okButtonProps={{ style: { backgroundColor: '#5595c9' } }}
+            title = 'Edición exitosa'
+            >
+            Pregunta actualizada correctamente
+      </Modal>
       </div>
   )
 }

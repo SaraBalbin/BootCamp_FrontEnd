@@ -81,7 +81,7 @@ const FormUser = ({type}) => {
       'formOk': false
     }
     listUsersSolutions.push(newUserSolution)
-    localStorage.setItem('studentsAnswer', JSON.stringify(newUserSolution))
+    localStorage.setItem('studentsAnswer', JSON.stringify(listUsersSolutions))
     setMsgCreate(true)
   }
 

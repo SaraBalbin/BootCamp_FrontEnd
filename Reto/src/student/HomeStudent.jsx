@@ -37,7 +37,7 @@ const HomeStudent = () => {
             if(student.id === actualUser.id){
                 if (student.formOk){
                     return (
-                        <button onClick={() =>{score(student)}} className='botonEditarCrear' style={{marginTop:'20px', marginLeft: '20px'}}>Ver Calificacion</button>
+                        <button disabled = {questions === null ? true: false} onClick={() =>{score(student)}} className='botonEditarCrear' style={{marginTop:'20px', marginLeft: '20px'}}>Ver Calificacion</button>
                     )
                 }
             }
@@ -92,8 +92,8 @@ const HomeStudent = () => {
                 title = 'Puntaje obtenido'
                     >
                 <p>Preguntas correctas: {scoreStudent}</p>
-                <p>Total de preguntas: {questions.length}</p>        
-                La calificación obtenida es: <span>{(scoreStudent/questions.length) * 5}</span>
+                <p>Total de preguntas: {questions?.length}</p>        
+                La calificación obtenida es: <span id = 'score'>{ ((scoreStudent/questions?.length) * 5).toFixed(1)}</span>
         </Modal>
     </div>
   )

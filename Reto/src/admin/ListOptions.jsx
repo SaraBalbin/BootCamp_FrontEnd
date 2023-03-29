@@ -22,9 +22,13 @@ const ListOptions = () => {
 
   // Edit
   const [edit, setEdit] = useState(false)
+  const [msgEdit, setMsgEdit] = useState(false)
   
   const closeModalEdit = () =>{
     setEdit(false)
+  }
+  const closeModalMsgEdit = () => {
+    setMsgEdit(false)
   }
   const [currentOption, setCurrentOption] = useState('')
   const [idOption, setIdOption] = useState('')
@@ -49,8 +53,10 @@ const ListOptions = () => {
           if (option.id === idOption){
             if (currentOption instanceof Object){
               questions[i].options[j].option = currentOption.option
+              if (currentOption.option.trim() === '') return false;
             }
             else {
+              if (currentOption.trim() === '') return false;
               questions[i].options[j].option = currentOption
             }
             localStorage.setItem('actualOptions', JSON.stringify(questions[i].options))
@@ -61,9 +67,8 @@ const ListOptions = () => {
       }
     }
     localStorage.setItem('questions', JSON.stringify(questions))
-    console.log(JSON.parse(localStorage.getItem('questions')))
-    console.log(JSON.parse(localStorage.getItem('actualOptions')))
     closeModalEdit()
+    setMsgEdit(true)
   }
   
   const columnsOptions = [
@@ -102,7 +107,7 @@ const ListOptions = () => {
                 <hr/>
                 <li><a className='activo' href="/listQuestions">Preguntas</a></li>
                 <hr/>
-                <li><a href="#news">Información</a></li>
+                <li><a  onClick={() => {localStorage.removeItem('actualUser')}} href = '/'>Salir</a></li>
                 <hr/>
             </ul>
         </nav>
@@ -127,24 +132,33 @@ const ListOptions = () => {
         </div>
 
         <Modal open ={edit}
-                onCancel = {closeModalEdit}
-                onOk = {submit}
-                okButtonProps={{ style: { backgroundColor: '#5595c9' } }}
-                title = 'Editar Opción'
-                okText = 'Guardar'
-                cancelText = 'Cancelar'
-                    >
-                <form className = 'editarPregOpc' >
-                  <div>
-                    <label>ID de la opción</label>
-                    <input className = 'idRead' value={idOption} readOnly></input>
-                  </div>
-                  <div>
-                    <label>Contenido de la opción</label>
-                    <textarea className = 'inputEditar' value={currentOption.option} onChange={e => setCurrentOption(e.target.value)} />
-                  </div>
-                </form>
+          onCancel = {closeModalEdit}
+          onOk = {submit}
+          okButtonProps={{ style: { backgroundColor: '#5595c9' } }}
+          title = 'Editar Opción'
+          okText = 'Guardar'
+          cancelText = 'Cancelar'
+              >
+          <form className = 'editarPregOpc' >
+            <div>
+              <label>ID de la opción</label>
+              <input className = 'idRead' value={idOption} readOnly></input>
+            </div>
+            <div>
+              <label>Contenido de la opción</label>
+              <textarea className = 'inputEditar' value={currentOption.option} onChange={e => setCurrentOption(e.target.value)} />
+            </div>
+          </form>
         </Modal>
+
+        <Modal open ={msgEdit}
+            onOk= {closeModalMsgEdit}
+            cancelButtonProps={{ style: { display: 'none' } }}
+            okButtonProps={{ style: { backgroundColor: '#5595c9' } }}
+            title = 'Edición exitosa'
+            >
+            Opción actualizada correctamente
+      </Modal>
       </div>
   )
 }
