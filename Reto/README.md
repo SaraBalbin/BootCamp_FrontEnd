@@ -16,6 +16,6 @@ Correo: admin@admin.com <br>
 Contraseña: admin
 
 - Estudiante <br>
-Correo: sbalbin@unal.edu.co <br>
+Correo: sbalbin@gmail.co <br>
 Contraseña: 1234 <br>
 En el sistema se le permite crear mas usuarios estudiantes
